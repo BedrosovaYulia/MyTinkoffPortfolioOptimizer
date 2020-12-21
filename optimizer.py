@@ -31,15 +31,20 @@ def main():
 
     markets=api.market.market_stocks_get()
     
+    l = ["F", "MU", "PYPL", "SPCE", "FIVE", "SIBN",  "DSKY", "LNTA", "MGNT", "NLMK", "PHOR"]
+
+    #l=["AAPL", "SBER", "MSFT", "GAZP", "BAC", "KO", "CSCO", "YNDX", "ROSN", "AFLT", "NKE", "DSKY"]
+
+    
     df = dict()
     k=0
     for MI in markets.instruments:
-        if (k<10):
+        if (MI.ticker in l):
             now = datetime.now()
             try:
                 cndls = api.market.market_candles_get(MI.figi,
                                                     from_=now -
-                                                    timedelta(days=30),
+                                                    timedelta(days=90),
                                                     to=now,
                                                     interval=ti.CandleResolution.day)
                 df2 = dict()
@@ -55,9 +60,8 @@ def main():
 
     print(pddf)
 
-    #er = erk.annualize_rets(pddf, 12)
-    #print(er)
-
+    #Global Minimum Variance[GMV] Portfolio
+    
     cov = pddf.cov()
     print(cov)
     
