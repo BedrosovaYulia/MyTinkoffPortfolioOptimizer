@@ -31,9 +31,14 @@ def main():
 
     markets=api.market.market_stocks_get()
     
-    l = ["F", "MU", "PYPL", "SPCE", "FIVE", "SIBN",  "DSKY", "LNTA", "MGNT", "NLMK", "PHOR"]
+    #l = ["F", "MU", "PYPL", "SPCE", "FIVE", "SIBN",  "DSKY", "LNTA", "MGNT", "NLMK", "PHOR"]
 
     #l=["AAPL", "SBER", "MSFT", "GAZP", "BAC", "KO", "CSCO", "YNDX", "ROSN", "AFLT", "NKE", "DSKY"]
+
+    #l=["AAPL", "CO", "INTC", "MSFT", "PFE", "RIG", "YNDX", "AFLT", "DSKY", "LKOH", "NLMK", "ROSN", "SBER"]
+
+    l = ["PHOR", "SBER"]
+
 
     
     df = dict()
@@ -44,7 +49,7 @@ def main():
             try:
                 cndls = api.market.market_candles_get(MI.figi,
                                                     from_=now -
-                                                    timedelta(days=90),
+                                                    timedelta(days=250),
                                                     to=now,
                                                     interval=ti.CandleResolution.day)
                 df2 = dict()
