@@ -125,3 +125,4 @@ dmypy.json
 .pyre/
 
 *.csv
+.DS_Store
