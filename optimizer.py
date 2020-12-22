@@ -6,7 +6,6 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import tinvest as ti
-
 import edhec_risk_kit as erk
 
 
@@ -37,7 +36,7 @@ def main():
 
     #l=["AAPL", "CO", "INTC", "MSFT", "PFE", "RIG", "YNDX", "AFLT", "DSKY", "LKOH", "NLMK", "ROSN", "SBER"]
 
-    l = ["PHOR", "SBER"]
+    l = ["PHOR", "SBER", "ATVI"]
 
 
     
