@@ -41,7 +41,7 @@ def main():
             now = datetime.now()
             try:
                 cndls = api.market.market_candles_get(MI.figi,
-                                                    from_=now - timedelta(days=1),
+                                                    from_=now - timedelta(hours=4),
                                                     to=now,
                                                     interval=ti.CandleResolution.min1)
                 df2 = dict()
