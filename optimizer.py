@@ -36,8 +36,11 @@ def main():
 
     #l=["AAPL", "CO", "INTC", "MSFT", "PFE", "RIG", "YNDX", "AFLT", "DSKY", "LKOH", "NLMK", "ROSN", "SBER"]
 
-    l = ["PHOR", "SBER", "ATVI"]
-
+    #l = ["PHOR", "ATVI", "MGNT", "DSKY", "NLMK", "ROSN", "INTC", "MSFT"]
+    
+    #l = ["SIBN",  "DSKY", "MGNT", "PHOR", "NLMK"]
+    l = ["CHEP",  "MGNT", "FEES", "MRKC", "PHOR"]
+    budget=65000
 
     
     df = dict()
@@ -72,7 +75,7 @@ def main():
     gmv=erk.gmv(cov)
     i=0
     for g in gmv:
-        print (cov.index[i],g.round(4)*100)
+        print (cov.index[i],g.round(4)*budget)
         i=i+1
 
 

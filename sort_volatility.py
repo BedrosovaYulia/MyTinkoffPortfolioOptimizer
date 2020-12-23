@@ -56,7 +56,7 @@ def main():
     sharp_r = erk.sharpe_ratio(pddf, 0.1, 250)
 
     
-    result = pd.DataFrame(dict(vol=valotil, rets=a_rets, sharp=sharp_r)).reset_index()
+    result = pd.DataFrame(dict(vol=valotil, rets=a_rets.round(2), sharp=sharp_r.round(2))).reset_index()
     print(result.head())
 
     result.to_csv("volatility2.csv")
