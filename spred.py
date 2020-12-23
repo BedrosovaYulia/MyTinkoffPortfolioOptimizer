@@ -30,14 +30,14 @@ api = ti.OpenApi(client)
 
 def main():
     
-    #l = ["AAPL", "SBER", "MSFT", "GAZP", "BAC", "KO", "CSCO", "YNDX", "ROSN", "AFLT", "NKE", "DSKY"]
+    l = ["AAPL", "SBER", "MSFT", "GAZP", "BAC", "KO", "CSCO", "YNDX", "ROSN", "AFLT", "NKE", "DSKY"]
 
     markets = api.market.market_stocks_get()
     df = dict()
     k = 0
     for MI in markets.instruments:
-        if MI.ticker: #in l:
-            print("Analizing "+MI.ticker)
+        if MI.ticker:# in l:
+            print("Analizing "+MI.ticker, MI.currency)
             now = datetime.now()
             try:
                 cndls = api.market.market_candles_get(MI.figi,
@@ -46,7 +46,9 @@ def main():
                                                     interval=ti.CandleResolution.min1)
                 df2 = dict()
                 for cndl in cndls.candles:
-                    df2[str(cndl.time)] = cndl.c-cndl.o
+                    df2[str(cndl.time)] = int(cndl.c-cndl.o)
+                    if MI.currency==MI.currency.usd:
+                        df2[str(cndl.time)] = df2[str(cndl.time)]*70
                     #print(cndl)
                 df[MI.ticker] = df2
             except:
