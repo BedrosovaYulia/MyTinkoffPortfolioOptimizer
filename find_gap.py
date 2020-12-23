@@ -48,10 +48,9 @@ def main():
                 df2 = dict()
                 cost=0
                 for cndl in cndls.candles:
-                    df2[str(cndl.time)] = int(cndl.c-cndl.o)
+                    df2[str(cndl.time)] = ((cndl.c-cndl.o)/cndl.o)*100
                     cost = cndl.c
                     if MI.currency==MI.currency.usd:
-                        df2[str(cndl.time)] = df2[str(cndl.time)]*70
                         cost=cost*70
 
                     #print(cndl)

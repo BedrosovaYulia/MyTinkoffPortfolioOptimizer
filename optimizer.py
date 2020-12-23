@@ -38,9 +38,10 @@ def main():
 
     #l = ["PHOR", "ATVI", "MGNT", "DSKY", "NLMK", "ROSN", "INTC", "MSFT"]
     
-    #l = ["SIBN",  "DSKY", "MGNT", "PHOR", "NLMK"]
-    l = ["CHEP",  "MGNT", "FEES", "MRKC", "PHOR"]
-    budget=65000
+    #l = ["SIBN",  "DSKY", "MGNT", "PHOR", "NLMK", "ITCI"]
+    #l = ["CHEP",  "MGNT", "FEES", "MRKC", "PHOR"]
+    l=["ITCI", "ATVI", "MAT", "INTC", "KO"]
+    budget=482
 
     
     df = dict()
