@@ -58,11 +58,12 @@ def main():
     pddf = pd.DataFrame(df)
     pddf.index = pd.to_datetime(pddf.index).to_period('h')
 
-    print(pddf.head())
-
+    
     result = pd.DataFrame(dict(minval=pddf.min(), mintime=pddf.idxmin())).reset_index()
     #print(result)
-    result.to_csv("spred"+str(now.day)+".csv")
+    result.sort_values(by="minval", ascending=True).to_csv("spred"+str(now.day)+".csv")
+    
+    print(result.sort_values(by="minval", ascending=True).head())
 
 if __name__ == '__main__':
     main()
