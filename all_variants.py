@@ -29,25 +29,10 @@ def main():
 
     markets=api.market.market_stocks_get()
     
-    #l = ["F", "MU", "PYPL", "SPCE", "FIVE", "SIBN",  "DSKY", "LNTA", "MGNT", "NLMK", "PHOR"]
-
-    #l=["AAPL", "SBER", "MSFT", "GAZP", "BAC", "KO", "CSCO", "YNDX", "ROSN", "AFLT", "NKE", "DSKY"]
-
-    #l=[ "KO", "INTC", "PFE", "YNDX", "GARP", "ROSN", "SBER"]
-
-    #l = ["PHOR", "ATVI", "MGNT", "DSKY", "NLMK", "ROSN", "INTC", "MSFT"]
-    
-    #l = ["SIBN",  "DSKY", "MGNT", "PHOR", "NLMK", "ITCI"]
-    #l = ["CHEP",  "MGNT", "FEES", "MRKC", "PHOR"]
-    #l=["ITCI", "ATVI", "MAT", "INTC", "KO"]
-
-    #l=["ATVI", "KO", "INTC", "ITCI", "MAT"]
-
-    l = ["LNTA", "RUAL", "VTBR", "TATN", "MAGN"]
-    
     budget = 10000
 
-    
+    #instruments = ["SBER", "MSFT", "GAZP", "BAC", "YNDX", "ROSN", "AFLT", "DSKY", "SBER", "LNTA"]
+        
     instruments = list()
     for MI in markets.instruments:
         now = datetime.now()
@@ -60,10 +45,8 @@ def main():
             cost = 0
             for cndl in cndls.candles:
                 cost = cndl.c
-                if MI.currency == MI.currency.usd:
-                    cost = cost*70
                     
-            if cost*MI.lot < budget/10:
+            if (MI.currency == MI.currency.rub) and (cost*MI.lot < budget/10):
                 instruments.append(MI.ticker)
 
         except:
@@ -71,56 +54,71 @@ def main():
     
     #print(instruments)
 
-    """portfolious = itertools.combinations(instruments, 5)
+    portfolious = itertools.combinations(instruments, 5)
     print(portfolious)
     for prt in portfolious:
-        print(prt)"""
-
-
-    df = dict()
-    dc = dict()
-    k=0
-    for MI in markets.instruments:
-        if MI.ticker in instruments:
-            now = datetime.now()
-            try:
-                cndls = api.market.market_candles_get(MI.figi,
-                                                    from_=now -
-                                                    timedelta(days=250),
-                                                    to=now,
-                                                    interval=ti.CandleResolution.day)
-                df2 = dict()
-                cost = 0
-                for cndl in cndls.candles:
-                    cost = cndl.c
-                    if MI.currency == MI.currency.usd:
-                        cost = cost*70
-                    dc[MI.ticker]=cost*MI.lot
-                    df2[str(cndl.time)] = ((cndl.c-cndl.o)/cndl.o)*100
-                    
-                if cost*MI.lot < budget/10:
-                    df[MI.ticker] = df2
-    
-            except:
-                pass
-            k=k+1
         
-    pddf = pd.DataFrame(df)
-    pddf.index = pd.to_datetime(pddf.index).to_period('d')
+        df = dict()
+        dc = dict()
+        k=0
+        for MI in markets.instruments:
+            if MI.ticker in prt:
+                now = datetime.now()
+                try:
+                    cndls = api.market.market_candles_get(MI.figi,
+                                                        from_=now -
+                                                        timedelta(days=250),
+                                                        to=now,
+                                                        interval=ti.CandleResolution.day)
+                    df2 = dict()
+                    cost = 0
+                    for cndl in cndls.candles:
+                        cost = cndl.c
+                        if MI.currency == MI.currency.usd:
+                            cost = cost*70
+                        dc[MI.ticker]=cost*MI.lot
+                        df2[str(cndl.time)] = ((cndl.c-cndl.o)/cndl.o)*100
+                        
+                    if cost*MI.lot < budget/10:
+                        df[MI.ticker] = df2
+        
+                except:
+                    pass
+                k=k+1
+            
+        pddf = pd.DataFrame(df)
+        pddf.index = pd.to_datetime(pddf.index).to_period('d')
 
-    #print(pddf)
-    #Global Minimum Variance[GMV] Portfolio
+        #print(pddf)
+        #Global Minimum Variance[GMV] Portfolio
     
-    cov = pddf.cov()
-    print(cov)
-    
-    gmv=erk.gmv(cov)
-    i=0
-    print("name", "sum", "lot price", "lot quantity")
-    for g in gmv:
-        print(cov.index[i], g.round(4)*budget, dc[str(cov.index[i])],
-              round((g.round(4)*budget)/(dc[str(cov.index[i])]),0))
-        i=i+1
+        cov = pddf.cov()
+        #print(cov)
+        try:        
+            gmv=erk.gmv(cov)
+            i = 0
+            result=list()
+            for g in gmv:
+                if round((g.round(4)*budget)/(dc[str(cov.index[i])]), 0) >0:
+                    #print(cov.index[i], g.round(4)*budget, dc[str(cov.index[i])],
+                    #    round((g.round(4)*budget)/(dc[str(cov.index[i])]),0))
+                    result.append({
+                        "name":cov.index[i], 
+                        "sum":g.round(4)*budget, 
+                        "price":dc[str(cov.index[i])], 
+                        "quantity of lot":round((g.round(4)*budget)/(dc[str(cov.index[i])]), 0)
+                    })
+                
+                i=i+1
+            
+            #if result.count() == 5:
+            print(prt)
+            print(result)
+            print("***************************************************")
+                
+        except:
+            pass
+
 
 
     
