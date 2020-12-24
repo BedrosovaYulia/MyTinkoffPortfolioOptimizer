@@ -34,20 +34,26 @@ def main():
 
     #l=["AAPL", "SBER", "MSFT", "GAZP", "BAC", "KO", "CSCO", "YNDX", "ROSN", "AFLT", "NKE", "DSKY"]
 
-    #l=["AAPL", "CO", "INTC", "MSFT", "PFE", "RIG", "YNDX", "AFLT", "DSKY", "LKOH", "NLMK", "ROSN", "SBER"]
+    #l=[ "KO", "INTC", "PFE", "YNDX", "GARP", "ROSN", "SBER"]
 
     #l = ["PHOR", "ATVI", "MGNT", "DSKY", "NLMK", "ROSN", "INTC", "MSFT"]
     
     #l = ["SIBN",  "DSKY", "MGNT", "PHOR", "NLMK", "ITCI"]
     #l = ["CHEP",  "MGNT", "FEES", "MRKC", "PHOR"]
-    l=["ITCI", "ATVI", "MAT", "INTC", "KO"]
-    budget=482
+    #l=["ITCI", "ATVI", "MAT", "INTC", "KO"]
+
+    #l=["ATVI", "KO", "INTC", "ITCI", "MAT"]
+
+    l = ["LNTA", "RUAL", "VTBR", "TATN", "MAGN"]
+
+    budget=10000
 
     
     df = dict()
+    dc = dict()
     k=0
     for MI in markets.instruments:
-        if (MI.ticker in l):
+        if MI.ticker:# in l:
             now = datetime.now()
             try:
                 cndls = api.market.market_candles_get(MI.figi,
@@ -56,9 +62,17 @@ def main():
                                                     to=now,
                                                     interval=ti.CandleResolution.day)
                 df2 = dict()
+                cost = 0
                 for cndl in cndls.candles:
+                    cost = cndl.c
+                    if MI.currency == MI.currency.usd:
+                        cost = cost*70
+                    dc[MI.ticker]=cost*MI.lot
                     df2[str(cndl.time)] = ((cndl.c-cndl.o)/cndl.o)*100
-                df[MI.ticker] = df2
+                    
+                if cost*MI.lot < 500:
+                    df[MI.ticker] = df2
+    
             except:
                 pass
             k=k+1
@@ -66,17 +80,18 @@ def main():
     pddf = pd.DataFrame(df)
     pddf.index = pd.to_datetime(pddf.index).to_period('d')
 
-    print(pddf)
-
+    #print(pddf)
     #Global Minimum Variance[GMV] Portfolio
     
     cov = pddf.cov()
-    print(cov)
+    #print(cov)
     
     gmv=erk.gmv(cov)
     i=0
+    print("name", "sum", "lot price", "lot quantity")
     for g in gmv:
-        print (cov.index[i],g.round(4)*budget)
+        print(cov.index[i], g.round(4)*budget, dc[str(cov.index[i])],
+              round((g.round(4)*budget)/(dc[str(cov.index[i])]),0))
         i=i+1
 
 
