@@ -106,15 +106,18 @@ def main():
                         "name":cov.index[i], 
                         "sum":g.round(4)*budget, 
                         "price":dc[str(cov.index[i])], 
-                        "quantity of lot":round((g.round(4)*budget)/(dc[str(cov.index[i])]), 0)
+                        "quantity":round((g.round(4)*budget)/(dc[str(cov.index[i])]), 0)
                     })
                 
                 i=i+1
             
-            #if result.count() == 5:
-            print(prt)
-            print(result)
-            print("***************************************************")
+            #print(prt)
+            #print(len(result))
+            if len(result) == 5:
+                print(prt)
+                for r in result:
+                    print(r["name"], r["quantity"])
+                print("***************************************************")
                 
         except:
             pass
