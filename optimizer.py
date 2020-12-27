@@ -29,31 +29,21 @@ api = ti.OpenApi(client)
 def main():
 
     markets=api.market.market_stocks_get()
-    
-    #l = ["F", "MU", "PYPL", "SPCE", "FIVE", "SIBN",  "DSKY", "LNTA", "MGNT", "NLMK", "PHOR"]
 
-    #l=["AAPL", "SBER", "MSFT", "GAZP", "BAC", "KO", "CSCO", "YNDX", "ROSN", "AFLT", "NKE", "DSKY"]
+    #l = ["ATVI", "KO", "INTC", "LPL", "MAT"]
 
-    #l=[ "KO", "INTC", "PFE", "YNDX", "GARP", "ROSN", "SBER"]
+    #l=["FIVE", "SIBN", "LNTA", "MGNT", "MAGN", "NLMK"]
 
-    #l = ["PHOR", "ATVI", "MGNT", "DSKY", "NLMK", "ROSN", "INTC", "MSFT"]
-    
-    #l = ["SIBN",  "DSKY", "MGNT", "PHOR", "NLMK", "ITCI"]
-    #l = ["CHEP",  "MGNT", "FEES", "MRKC", "PHOR"]
-    #l=["ITCI", "ATVI", "MAT", "INTC", "KO"]
+    l = ["ATVI", "KO", "INTC", "LPL", "MAT", "FIVE", "SIBN", "LNTA"]
 
-    #l=["ATVI", "KO", "INTC", "ITCI", "MAT"]
-
-    l = ["LNTA", "RUAL", "VTBR", "TATN", "MAGN"]
-
-    budget=10000
+    budget=75000
 
     
     df = dict()
     dc = dict()
     k=0
     for MI in markets.instruments:
-        if MI.ticker:# in l:
+        if MI.ticker in l:
             now = datetime.now()
             try:
                 cndls = api.market.market_candles_get(MI.figi,
@@ -70,8 +60,8 @@ def main():
                     dc[MI.ticker]=cost*MI.lot
                     df2[str(cndl.time)] = ((cndl.c-cndl.o)/cndl.o)*100
                     
-                if cost*MI.lot < 500:
-                    df[MI.ticker] = df2
+                #if cost*MI.lot < 1000:
+                df[MI.ticker] = df2
     
             except:
                 pass

@@ -1,65 +1,37 @@
-import os
 from datetime import datetime, timedelta
-from http import HTTPStatus
-from typing import Any, List, Tuple
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
-import tinvest as ti
+import tinkoff_data as td
 import edhec_risk_kit as erk
 import csv
 
 
-class HTTPError(Exception):
-    pass
-
-class CustomClient(ti.SyncClient):
-    def request(self, *args, **kwargs) -> Any:
-        response = super().request(*args, **kwargs)
-        if response.status_code != HTTPStatus.OK:
-            raise HTTPError(response.parse_error().json())
-
-        return response.parse_json().payload
-
-client = CustomClient(os.getenv('TINVEST_SANDBOX_TOKEN', ''), use_sandbox=True)
-
-api = ti.OpenApi(client)
-
 def main():
+    l = ["ATVI", "KO", "INTC", "LPL", "MAT", "FIVE", "SIBN", "LNTA"]
+    pddf = td.getTinkoffLastYearPrices(l, resolution='day')
+    pddf = td.getTinkoffLastYearPrices(l, resolution='month')
 
-    markets = api.market.market_stocks_get()
-    df = dict()
-    k = 0
-    for MI in markets.instruments:
-        print ("Analizing "+MI.ticker)
-        now = datetime.now()
-        try:
-            cndls = api.market.market_candles_get(MI.figi,
-                                                    from_=now -
-                                                    timedelta(days=250),
-                                                    to=now,
-                                                    interval=ti.CandleResolution.day)
-            df2 = dict()
-            for cndl in cndls.candles:
-                df2[str(cndl.time)] = ((cndl.c-cndl.o)/cndl.o)*100
-            df[MI.ticker] = df2
-        except:
-            pass
-        k = k+1
-
-    pddf = pd.DataFrame(df)
-    pddf.index = pd.to_datetime(pddf.index).to_period('d')
-
-    # 250 because 250 trading days a year
-    valotil = erk.annualize_vol(pddf, 250)
-    a_rets = erk.annualize_rets(pddf, 250)
-    sharp_r = erk.sharpe_ratio(pddf, 0.1, 250)
-
+    #pddf.index = pd.to_datetime(pddf.index).to_period('d')
     
-    result = pd.DataFrame(dict(vol=valotil, rets=a_rets.round(2), sharp=sharp_r.round(2))).reset_index()
-    print(result.head())
+    returns = pddf.pct_change()[1:]
+    print(returns.head())
+    print(returns.shape)
 
-    result.to_csv("volatility2.csv")
+    valotil = erk.annualize_vol(returns, returns.shape[0])
+    a_rets = erk.annualize_rets(returns, returns.shape[0])
+    sharp_r = erk.sharpe_ratio(returns, 0.1, returns.shape[0])
+    
+    result = pd.DataFrame(dict(
+        vol=valotil*100, 
+        rets=a_rets*100, 
+        sharp=sharp_r*100
+        )).reset_index()
+
+    pd.set_option("display.float_format", "{:.2f}".format)
+
+    print(result.sort_values(by="vol", ascending=True).head())
+
+    result.to_csv("volatility_"+str(datetime.now().date())+".csv")
    
 
 
