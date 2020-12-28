@@ -29,11 +29,11 @@ def main():
 
     markets=api.market.market_stocks_get()
     
-    budget = 10000
+    budget = 2000
 
     #instruments = ["SBER", "MSFT", "GAZP", "BAC", "YNDX", "ROSN", "AFLT", "DSKY", "SBER", "LNTA"]
         
-    instruments = list()
+    """instruments = list()
     for MI in markets.instruments:
         now = datetime.now()
         try:
@@ -52,7 +52,9 @@ def main():
         except:
             pass
     
-    #print(instruments)
+    #print(instruments)"""
+
+    instruments = ["TSLA", "ZM", "MRNA", "BILI", "DNLI", "ETSY", "RARE", "TWLO", "DOCU", "KOD", "APPN", "TTD","MELI","TRUP","MDB","SEDG","NTRA","JD","SNAP","OKTA"]
 
     portfolious = itertools.combinations(instruments, 5)
     print(portfolious)
@@ -67,7 +69,7 @@ def main():
                 try:
                     cndls = api.market.market_candles_get(MI.figi,
                                                         from_=now -
-                                                        timedelta(days=250),
+                                                        timedelta(days=365),
                                                         to=now,
                                                         interval=ti.CandleResolution.day)
                     df2 = dict()

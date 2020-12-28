@@ -40,7 +40,7 @@ def getTinkoffLastYearPrices(l=[], resolution='day'):
                 elif resolution == 'month':
                     cndls = api.market.market_candles_get(MI.figi,
                                                           from_=now -
-                                                          timedelta(days=396),
+                                                          timedelta(days=3650),
                                                           to=now,
                                                           interval=ti.CandleResolution.month)
 

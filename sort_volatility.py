@@ -21,7 +21,7 @@ def main():
 
     valotil = erk.annualize_vol(returns, returns.shape[0])
     a_rets = erk.annualize_rets(returns, returns.shape[0])
-    sharp_r = erk.sharpe_ratio(returns, 0.1, returns.shape[0])
+    sharp_r = erk.sharpe_ratio(returns, 0.03, returns.shape[0])
     
     result = pd.DataFrame(dict(
         vol=valotil*100, 
@@ -31,7 +31,7 @@ def main():
 
     pd.set_option("display.float_format", "{:.2f}".format)
 
-    print(result.sort_values(by="vol", ascending=True).head())
+    print(result.sort_values(by="sharp", ascending=False).head(20))
 
     result.to_csv("volatility_"+str(datetime.now().date())+".csv")
    

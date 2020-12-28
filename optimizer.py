@@ -34,9 +34,9 @@ def main():
 
     #l=["FIVE", "SIBN", "LNTA", "MGNT", "MAGN", "NLMK"]
 
-    l = ["ATVI", "KO", "INTC", "LPL", "MAT", "FIVE", "SIBN", "LNTA"]
+    l = ["ATVI", "KO", "INTC", "LPL", "MAT", "AIV"]
 
-    budget=75000
+    budget=488
 
     
     df = dict()
@@ -48,15 +48,15 @@ def main():
             try:
                 cndls = api.market.market_candles_get(MI.figi,
                                                     from_=now -
-                                                    timedelta(days=250),
+                                                    timedelta(days=365),
                                                     to=now,
                                                     interval=ti.CandleResolution.day)
                 df2 = dict()
                 cost = 0
                 for cndl in cndls.candles:
                     cost = cndl.c
-                    if MI.currency == MI.currency.usd:
-                        cost = cost*70
+                    #if MI.currency == MI.currency.usd:
+                    #    cost = cost*70
                     dc[MI.ticker]=cost*MI.lot
                     df2[str(cndl.time)] = ((cndl.c-cndl.o)/cndl.o)*100
                     
