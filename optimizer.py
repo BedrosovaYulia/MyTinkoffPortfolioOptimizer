@@ -32,11 +32,11 @@ def main():
 
     #l = ["ATVI", "KO", "INTC", "LPL", "MAT"]
 
-    #l=["FIVE", "SIBN", "LNTA", "MGNT", "MAGN", "NLMK"]
+    #l = ["PHOR", "NLMK", "DSKY", "SBER", "MTSS", "CHMF"]
 
-    l = ["ATVI", "KO", "INTC", "LPL", "MAT", "AIV"]
+    l = ["ATVI", "KO", "PGR", "LPL", "T", "DBX", "SLG"]
 
-    budget=488
+    budget=550
 
     
     df = dict()
