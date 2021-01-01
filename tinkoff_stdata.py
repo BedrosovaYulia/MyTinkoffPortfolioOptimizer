@@ -1,7 +1,24 @@
 import os
+import asyncio
 
 from openapi_client.openapi_streaming import run_stream_consumer
 from openapi_client.openapi_streaming import print_event
+
+
+
+"""async def main() -> None:
+    async with ti.Streaming(config.TOKEN) as streaming:
+        await streaming.candle.subscribe('BBG0013HGFT4', ti.CandleResolution.min1)
+        await streaming.orderbook.subscribe('BBG0013HGFT4', 5)
+        await streaming.instrument_info.subscribe('BBG0013HGFT4')
+        async for event in streaming:
+            print(event)  # noqa:T001
+
+
+try:
+    asyncio.run(main())
+except KeyboardInterrupt:
+    pass"""
 
 
 token = os.getenv('TINVEST_SANDBOX_TOKEN', '')
