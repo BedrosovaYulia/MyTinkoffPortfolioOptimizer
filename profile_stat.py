@@ -7,6 +7,8 @@ import numpy as np
 
 
 token = os.getenv('TINVEST_TOKEN', '')
+#token = os.getenv('TINVEST_VOVA', '')
+#print(token)
 client = openapi.api_client(token)
 
 def print_30d_operations():
@@ -24,15 +26,26 @@ def get_market_names():
     return names
 
 
+def get_market_bonds():
+    names = client.market.market_bonds_get()
+    return names
+
+
+def get_market_etfs():
+    names = client.market.market_etfs_get()
+    return names
+
+
 figi_name=dict()
 name_figi=dict()
-instruments = get_market_names()
-#print(instruments.payload.instruments)
-for instrument in instruments.payload.instruments:
+instruments = get_market_names().payload.instruments + \
+    get_market_bonds().payload.instruments + get_market_etfs().payload.instruments
+#print(instruments)
+for instrument in instruments:
     figi_name[instrument.figi]=instrument.name
     name_figi[instrument.name] = instrument.figi
 
-print(figi_name)
+#print(figi_name)
     
 figi_in_prt=list()
 figi_cost=dict()
@@ -47,7 +60,7 @@ operations=print_30d_operations()
 byfigi=dict()
 byfigiusd = dict()
 for operation in operations.payload.operations:
-    if operation.figi and operation.status == 'Done':
+    if operation.figi and operation.status == 'Done' and operation.figi != "BBG0013HGFT4":
         startsum=0
         try:
             startsum = figi_cost[operation.figi]
@@ -67,7 +80,7 @@ for operation in operations.payload.operations:
 
             
 for  operation in operations.payload.operations:
-    if operation.figi and operation.status == 'Done':
+    if operation.figi and operation.status == 'Done' and operation.figi != "BBG0013HGFT4":
         if operation.currency == "RUB":   
             byfigi[operation.figi]["summ"] = byfigi[operation.figi]["summ"] + operation.payment
         elif operation.currency == "USD":
