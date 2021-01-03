@@ -11,7 +11,7 @@ client = openapi.api_client(token)
 
 def print_30d_operations():
     now = datetime.now(tz=timezone('Europe/Moscow'))
-    yesterday = now - timedelta(days=30)
+    yesterday = now - timedelta(days=40)
     ops = client.operations.operations_get(_from=yesterday.isoformat(), to=now.isoformat())
     return ops
 
@@ -44,15 +44,28 @@ byfigi=dict()
 for operation in operations.payload.operations:
     if operation.figi and operation.status == 'Done' and (operation.figi not in figi_in_prt):
         byfigi[operation.figi] = {
-            "summ": 0, "currency": operation.currency, "name": figi_name[operation.figi]}
+            "summ": 0, "currency": operation.currency, "rsumm":0, "name": figi_name[operation.figi]}
         
 for  operation in operations.payload.operations:
     if operation.figi and operation.status == 'Done' and (operation.figi not in figi_in_prt):
-        byfigi[operation.figi]["summ"] = byfigi[operation.figi]["summ"] + operation.payment
         
+        rsumm = operation.payment
+        
+        if operation.currency=="USD":
+            rsumm = operation.payment*70
+        print("*************************************************")
+        print(figi_name[operation.figi], byfigi[operation.figi]
+              ["summ"], "+", operation.payment, "=")
+            
+        byfigi[operation.figi]["summ"] = byfigi[operation.figi]["summ"] + operation.payment
+        byfigi[operation.figi]["rsumm"] = byfigi[operation.figi]["rsumm"] + rsumm
+
+        print(figi_name[operation.figi], byfigi[operation.figi]["summ"])
+        print("****************************************************")
         
 pddf = pd.DataFrame(byfigi)
 pddf2=pddf.T
 
 print(pddf2)
+print(pddf2["rsumm"].sum())
 pddf2.to_csv("income.csv")
