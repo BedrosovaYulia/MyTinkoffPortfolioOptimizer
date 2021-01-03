@@ -52,6 +52,7 @@ for  operation in operations.payload.operations:
         
         
 pddf = pd.DataFrame(byfigi)
+pddf2=pddf.T
 
-print(pddf)
-pddf.to_csv("income.csv")
+print(pddf2)
+pddf2.to_csv("income.csv")
