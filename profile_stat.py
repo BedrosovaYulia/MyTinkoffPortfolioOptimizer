@@ -94,10 +94,10 @@ pddf2=pddf.T
 pddfusd = pd.DataFrame(byfigiusd)
 pddf2usd = pddfusd.T
 
-print(pddf2)
+print(pddf2.head())
 print(pddf2["summ"].sum())
 pddf2.to_csv("income.csv")
 
-print(pddf2usd)
+print(pddf2usd.head())
 print(pddf2usd["summ"].sum())
 pddf2usd.to_csv("incomeusd.csv")
