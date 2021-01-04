@@ -7,27 +7,12 @@ from openapi_client.openapi_streaming import print_event
 token = os.getenv('TINVEST_SANDBOX_TOKEN', '')
 
 
-async def main() -> None:
+candle_subs = [{'figi': 'BBG0018SLDN0', 'interval': '1min'}]
+orderbook_subs = [{'figi': 'BBG0018SLDN0', 'depth': 1}]
+instrument_info_subs = [{'figi': 'BBG0018SLDN0'}]
 
-        candle_subs = [{'figi': 'BBG000B9XRY4', 'interval': '1min'},
-               {'figi': 'BBG009S39JX6', 'interval': '1min'}]
-        orderbook_subs = [{'figi': 'BBG0013HGFT4', 'depth': 1},
-                        {'figi': 'BBG009S39JX6', 'depth': 3}]
-        instrument_info_subs = [{'figi': 'BBG000B9XRY4'}, {'figi': 'BBG009S39JX6'}]
+run_stream_consumer(token, candle_subs, orderbook_subs, instrument_info_subs, 
+on_candle_event=print_event, 
+on_orderbook_event=print_event,
+on_instrument_info_event=print_event)
 
-        await run_stream_consumer(token,
-                            candle_subs, orderbook_subs, instrument_info_subs,
-                            on_candle_event=print_event,
-                            on_orderbook_event=print_event,
-                            on_instrument_info_event=print_event)
-
-
-try:
-    asyncio.run(main())
-except KeyboardInterrupt:
-    pass
-
-
-"""
-
-"""

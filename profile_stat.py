@@ -51,6 +51,7 @@ figi_in_prt=list()
 figi_cost=dict()
 prt=get_portfilio()
 for pos in prt.payload.positions:
+    #print(pos)
     #print(pos.name, pos.balance*pos.average_position_price.value)
     figi_in_prt.append(pos.figi)
     figi_cost[pos.figi] = pos.balance*pos.average_position_price.value
