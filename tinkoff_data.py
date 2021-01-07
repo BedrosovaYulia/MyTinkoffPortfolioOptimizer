@@ -34,7 +34,7 @@ def getTinkoffLastYearPrices(l=[], resolution='day'):
                 if resolution=='day':
                     cndls = api.market.market_candles_get(MI.figi,
                                                         from_=now -
-                                                        timedelta(days=9),
+                                                        timedelta(days=365),
                                                         to=now,
                                                         interval=ti.CandleResolution.day)
                 elif resolution == 'month':
@@ -51,6 +51,33 @@ def getTinkoffLastYearPrices(l=[], resolution='day'):
             except:
                 pass
             k = k+1
-    
+    pddf = pd.DataFrame(df)
+    return pddf
+
+
+def getTinkoffDailyPrices(l=[], f=datetime.now()-timedelta(days=7), t=datetime.now()):
+    client = CustomClient(
+        os.getenv('TINVEST_SANDBOX_TOKEN', ''), use_sandbox=True)
+    api = ti.OpenApi(client)
+
+    markets = api.market.market_stocks_get()
+    df = dict()
+    k = 0
+    for MI in markets.instruments:
+        if (len(l) > 0 and MI.ticker in l) or (len(l) == 0 and MI.ticker):
+            now = datetime.now()
+            try:
+                cndls = api.market.market_candles_get(MI.figi,
+                                                        from_=f,
+                                                        to=t,
+                                                        interval=ti.CandleResolution.day)
+                
+                df2 = dict()
+                for cndl in cndls.candles:
+                    df2[str(cndl.time)] = cndl.c
+                df[MI.ticker] = df2
+            except:
+                pass
+            k = k+1
     pddf = pd.DataFrame(df)
     return pddf
