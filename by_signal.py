@@ -27,13 +27,17 @@ def calculate_sharp_table(l=[], f=datetime.now()-timedelta(days=7), t=datetime.n
 
 def main():
     pd.set_option("display.float_format", "{:.2f}".format)
-    l = ["ATVI", "KO", "PGR", "T", "GNL", "WTTR"]
-
+    #l = ["ATVI", "KO", "PGR", "T", "GNL", "WTTR"]
+    l=[]
     result = calculate_sharp_table(l, f=datetime.now()-timedelta(days=7), t=datetime.now())
     result2 = calculate_sharp_table(l, f=datetime.now()-timedelta(days=14), t=datetime.now()-timedelta(days=7))
-    
+
+    m = (result.merge(result2, how='outer', on=['index'],
+                  suffixes=['', '_old'], indicator=True))
+
     print(result.sort_values(by="sharp", ascending=False).head(20))
     print(result2.sort_values(by="sharp", ascending=False).head(20))
+    print(m.sort_values(by="sharp", ascending=False).head(20))
 
 
 if __name__ == '__main__':
