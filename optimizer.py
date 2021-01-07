@@ -32,11 +32,11 @@ def main():
 
     #l = ["ATVI", "KO", "INTC", "LPL", "MAT"]
 
-    #l = ["PHOR", "NLMK", "DSKY", "SBER", "MTSS", "CHMF"]
+    #l = ["SBER", "TATN", "PHOR", "CHMF", "MGNT", "GCHE", "GAZP", "LKOH", "ROSN"]
 
-    l = ["ATVI", "KO", "PGR", "LPL", "T", "DBX", "SLG"]
+    l = ["ATVI", "KO", "PGR", "T", "GNL"]
 
-    budget=550
+    budget=1000
 
     
     df = dict()
@@ -48,7 +48,7 @@ def main():
             try:
                 cndls = api.market.market_candles_get(MI.figi,
                                                     from_=now -
-                                                    timedelta(days=365),
+                                                    timedelta(days=60),
                                                     to=now,
                                                     interval=ti.CandleResolution.day)
                 df2 = dict()

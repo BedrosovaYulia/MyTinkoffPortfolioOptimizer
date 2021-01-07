@@ -7,10 +7,11 @@ import csv
 
 
 def main():
-    l = ["ATVI", "KO", "INTC", "LPL", "MAT", "FIVE", "SIBN", "LNTA"]
+    #l = ["ATVI", "KO", "INTC", "LPL", "MAT", "FIVE", "SIBN", "LNTA"]
+    l=[]
     #pddf = td.getTinkoffLastYearPrices(l, resolution='day')
     #pddf = td.getTinkoffLastYearPrices(l, resolution='month')
-    pddf = td.getTinkoffLastYearPrices(resolution='month')
+    pddf = td.getTinkoffLastYearPrices(resolution='day')
 
 
     pddf.index = pd.to_datetime(pddf.index).to_period('d')
