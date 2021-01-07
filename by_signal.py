@@ -27,17 +27,27 @@ def calculate_sharp_table(l=[], f=datetime.now()-timedelta(days=7), t=datetime.n
 
 def main():
     pd.set_option("display.float_format", "{:.2f}".format)
-    #l = ["ATVI", "KO", "PGR", "T", "GNL", "WTTR"]
+    """#l = ["ATVI", "KO", "PGR", "T", "GNL", "WTTR"]
     l=[]
     result = calculate_sharp_table(l, f=datetime.now()-timedelta(days=7), t=datetime.now())
-    result2 = calculate_sharp_table(l, f=datetime.now()-timedelta(days=14), t=datetime.now()-timedelta(days=7))
+    
+    l = result.sort_values(by="sharp", ascending=False).head(100)["index"].tolist()
+    print(l)"""
 
-    m = (result.merge(result2, how='outer', on=['index'],
-                  suffixes=['', '_old'], indicator=True))
+    #************************************
+    #l = ['ALB', 'ANAB', 'APTV', 'MNRO', 'SLB', 'RAMP', 'MCHP', 'KEYS', 'IFF', 'TEL', 'EDIT', 'NTRA', 'MTD', 'DHR', 'GTLS', 'MTG', 'XRX', 'ON', 'ENPH', 'FOCS', 'YETI', 'FCX', 'HPQ', 'CRMT', 'VREX', 'FOXF', 'COO', 'RYTM', 'ARW', 'MKSI', 'MYGN', 'UTHR', 'NXPI', 'BWA', 'GS', 'VEON', 'WTTR', 'NTUS', 'REGI', 'CF', 'BILI', 'OIS', 'UNVR', 'HOLX', 'KSU', 'SAVE', 'LFUS', 'CSWI', 'SIG',
+    #     'PH', 'EQT', 'WFC', 'ONTO', 'FANG', 'XEC', 'NTES', 'CVCO', 'APH', 'DAR', 'CFG', 'AEO', 'MATX', 'AMAT', 'RF', 'XPO', 'PRLB', 'MS', 'LAD', 'CNXN', 'SONO', 'KRYS', 'LYB', 'WEX', 'IRDM', 'TKR', 'REZI', 'UNP', 'SEDG', 'TPIC', 'COF', 'PLXS', 'ROCK', 'TREX', 'MYRG', 'CRUS', 'MANH', 'ASH', 'KMT', 'URI', 'RH', 'TOT', 'IR', 'MSTR', 'EBS', 'SNX', 'WST', 'FITB', 'INSP', 'BMI', 'OVV']
 
-    print(result.sort_values(by="sharp", ascending=False).head(20))
-    print(result2.sort_values(by="sharp", ascending=False).head(20))
-    print(m.sort_values(by="sharp", ascending=False).head(20))
+    l=['TDC',"SPCE", "VNO", "SLG"]
+    result = calculate_sharp_table(l, f=datetime.now()-timedelta(days=7), t=datetime.now())
+
+    result2 = calculate_sharp_table(l, f=datetime.now()-timedelta(days=37), t=datetime.now()-timedelta(days=7))
+    
+    print(result.sort_values(by="sharp", ascending=True).head(20))
+    print(result2.sort_values(by="sharp", ascending=True).head(20))
+
+    m = (result.merge(result2, how='outer', on=['index'],suffixes=['', '_old'], indicator=True))
+    print(m.sort_values(by="sharp_old", ascending=True).head(20))
 
 
 if __name__ == '__main__':
