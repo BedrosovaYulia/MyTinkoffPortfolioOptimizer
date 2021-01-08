@@ -34,7 +34,7 @@ def main():
     l = result.sort_values(by="sharp", ascending=False).head(100)["index"].tolist()
     print(l)"""
     
-    l=["MAGN","NKHP", "ABBV", "MAA", "PDCO","CAT","PFE","HAS"] #дивиденды в январе
+    l=['XRX', 'APTV', 'BRKR', 'IBP', 'CEVA', 'FRPT', 'ENV', 'MPC', 'RRGB', 'NTLA', 'RAVN', 'WING', 'ON', 'ROL', 'NMIH', 'ALB', 'IFF', 'RGEN', 'GTLS', 'BILI', 'VEON', 'SSD', 'LTHM', 'SIG', 'ROG', 'UNVR', 'MOS', 'INSP', 'AAN', 'PKI', 'FOXF', 'AVAV', 'EDIT', 'PTCT', 'SWAV', 'VLO', 'EOG', 'SLB', 'DAR', 'TSLA', 'SYNA', 'OII', 'BJRI', 'BC', 'BKR', 'TRMB', 'MYGN', 'INDB', 'THO', 'AEO', 'PRSC', 'MTG', 'AMAT', 'DXCM', 'R', 'EXP', 'ROCK', 'NTES', 'CFX', 'MSTR', 'NTUS', 'DVN', 'CRMT', 'OKE', 'PRFT', 'ITT', 'HES', 'AN', 'LAD', 'SEDG', 'RS', 'GKOS', 'ALTR', 'CFG', 'VALE', 'NTCT', 'NSC', 'ASH', 'TRIP', 'ONTO', 'KMT', 'WTTR', 'SPCE', 'HHC', 'TCBI', 'QRVO', 'CVS', 'WFC', 'COF', 'VCYT', 'CLF', 'CVCO', 'EVER', 'CLH', 'OXY', 'DKS', 'FITB', 'UTHR', 'ANAB', 'EAT']
 
     result = calculate_sharp_table(l, f=datetime.now()-timedelta(days=7), t=datetime.now())
 
@@ -45,7 +45,6 @@ def main():
 
     m = (result.merge(result2, how='outer', on=['index'],suffixes=['', '_old'], indicator=True))
     print(m.sort_values(by="sharp_old", ascending=True).head(20))
-
 
 if __name__ == '__main__':
     main()

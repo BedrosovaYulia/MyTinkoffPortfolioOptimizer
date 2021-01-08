@@ -96,8 +96,8 @@ pddf2usd = pddfusd.T
 
 print(pddf2.head())
 print(pddf2["summ"].sum())
-pddf2.to_csv("income.csv")
+pddf2.to_csv("income_"+str(datetime.now().date())+".csv")
 
 print(pddf2usd.head())
 print(pddf2usd["summ"].sum())
-pddf2usd.to_csv("incomeusd.csv")
+pddf2usd.to_csv("incomeusd_"+str(datetime.now().date())+".csv")
