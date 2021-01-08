@@ -27,18 +27,15 @@ def calculate_sharp_table(l=[], f=datetime.now()-timedelta(days=7), t=datetime.n
 
 def main():
     pd.set_option("display.float_format", "{:.2f}".format)
-    """#l = ["ATVI", "KO", "PGR", "T", "GNL", "WTTR"]
-    l=[]
-    result = calculate_sharp_table(l, f=datetime.now()-timedelta(days=7), t=datetime.now())
+    l=list()
+    #************************************
     
+    """result = calculate_sharp_table(l, f=datetime.now()-timedelta(days=7), t=datetime.now())
     l = result.sort_values(by="sharp", ascending=False).head(100)["index"].tolist()
     print(l)"""
+    
+    l=["MAGN","NKHP", "ABBV", "MAA", "PDCO","CAT","PFE","HAS"] #дивиденды в январе
 
-    #************************************
-    #l = ['ALB', 'ANAB', 'APTV', 'MNRO', 'SLB', 'RAMP', 'MCHP', 'KEYS', 'IFF', 'TEL', 'EDIT', 'NTRA', 'MTD', 'DHR', 'GTLS', 'MTG', 'XRX', 'ON', 'ENPH', 'FOCS', 'YETI', 'FCX', 'HPQ', 'CRMT', 'VREX', 'FOXF', 'COO', 'RYTM', 'ARW', 'MKSI', 'MYGN', 'UTHR', 'NXPI', 'BWA', 'GS', 'VEON', 'WTTR', 'NTUS', 'REGI', 'CF', 'BILI', 'OIS', 'UNVR', 'HOLX', 'KSU', 'SAVE', 'LFUS', 'CSWI', 'SIG',
-    #     'PH', 'EQT', 'WFC', 'ONTO', 'FANG', 'XEC', 'NTES', 'CVCO', 'APH', 'DAR', 'CFG', 'AEO', 'MATX', 'AMAT', 'RF', 'XPO', 'PRLB', 'MS', 'LAD', 'CNXN', 'SONO', 'KRYS', 'LYB', 'WEX', 'IRDM', 'TKR', 'REZI', 'UNP', 'SEDG', 'TPIC', 'COF', 'PLXS', 'ROCK', 'TREX', 'MYRG', 'CRUS', 'MANH', 'ASH', 'KMT', 'URI', 'RH', 'TOT', 'IR', 'MSTR', 'EBS', 'SNX', 'WST', 'FITB', 'INSP', 'BMI', 'OVV']
-
-    l=['TDC',"SPCE", "VNO", "SLG"]
     result = calculate_sharp_table(l, f=datetime.now()-timedelta(days=7), t=datetime.now())
 
     result2 = calculate_sharp_table(l, f=datetime.now()-timedelta(days=37), t=datetime.now()-timedelta(days=7))
