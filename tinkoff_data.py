@@ -71,7 +71,7 @@ def getTinkoffETFsLYPrices(l=[], resolution='day'):
                 if resolution == 'day':
                     cndls = api.market.market_candles_get(MI.figi,
                                                           from_=now -
-                                                          timedelta(days=365),
+                                                          timedelta(days=180),
                                                           to=now,
                                                           interval=ti.CandleResolution.day)
                 elif resolution == 'month':

@@ -5,15 +5,16 @@ import tinkoff_data as td
 import edhec_risk_kit as erk
 import csv
 
-l=[]
+#l=[]
 #l=["TIPO", "TGLD", "TUSD", "TSPX", "TBIO", "TECH"]
+l=["FXUS","FXRW","FXWO","FXKZ","FXCN","FXIT","FXDE","FXRL","FXRB","FXRU","FXGD","FXMM","FXTB"]
 
 pddf = td.getTinkoffETFsLYPrices(l)
 pddf.index = pd.to_datetime(pddf.index).to_period('d')
 pd.set_option("display.float_format", "{:.2f}".format)
 
 cov = pddf.cov()
-#print(cov)
+print(cov)
 cov.to_csv("etfs_cov.csv")
 
 print(cov.idxmin())
