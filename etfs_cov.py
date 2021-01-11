@@ -5,8 +5,8 @@ import tinkoff_data as td
 import edhec_risk_kit as erk
 import csv
 
-#l=[]
-l=["TIPO", "TGLD", "TUSD", "TSPX", "TBIO", "TECH"]
+l=[]
+#l=["TIPO", "TGLD", "TUSD", "TSPX", "TBIO", "TECH"]
 
 pddf = td.getTinkoffETFsLYPrices(l)
 pddf.index = pd.to_datetime(pddf.index).to_period('d')
