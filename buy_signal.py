@@ -24,6 +24,7 @@ def calculate_sharp_table(l=[], f=datetime.now()-timedelta(days=7), t=datetime.n
 
     return result
 
+    
 
 def main():
     pd.set_option("display.float_format", "{:.2f}".format)
