@@ -31,11 +31,12 @@ def main():
     l=list()
     #************************************
     
-    """result = calculate_sharp_table(l, f=datetime.now()-timedelta(days=7), t=datetime.now())
+    """result = calculate_sharp_table(l, f=datetime.now()-timedelta(days=1), t=datetime.now())
     l = result.sort_values(by="sharp", ascending=False).head(100)["index"].tolist()
     print(l)"""
     
-    l=['XRX', 'APTV', 'BRKR', 'IBP', 'CEVA', 'FRPT', 'ENV', 'MPC', 'RRGB', 'NTLA', 'RAVN', 'WING', 'ON', 'ROL', 'NMIH', 'ALB', 'IFF', 'RGEN', 'GTLS', 'BILI', 'VEON', 'SSD', 'LTHM', 'SIG', 'ROG', 'UNVR', 'MOS', 'INSP', 'AAN', 'PKI', 'FOXF', 'AVAV', 'EDIT', 'PTCT', 'SWAV', 'VLO', 'EOG', 'SLB', 'DAR', 'TSLA', 'SYNA', 'OII', 'BJRI', 'BC', 'BKR', 'TRMB', 'MYGN', 'INDB', 'THO', 'AEO', 'PRSC', 'MTG', 'AMAT', 'DXCM', 'R', 'EXP', 'ROCK', 'NTES', 'CFX', 'MSTR', 'NTUS', 'DVN', 'CRMT', 'OKE', 'PRFT', 'ITT', 'HES', 'AN', 'LAD', 'SEDG', 'RS', 'GKOS', 'ALTR', 'CFG', 'VALE', 'NTCT', 'NSC', 'ASH', 'TRIP', 'ONTO', 'KMT', 'WTTR', 'SPCE', 'HHC', 'TCBI', 'QRVO', 'CVS', 'WFC', 'COF', 'VCYT', 'CLF', 'CVCO', 'EVER', 'CLH', 'OXY', 'DKS', 'FITB', 'UTHR', 'ANAB', 'EAT']
+    l = ['GH', 'HIBB', 'URBN', 'GCO', 'BC', 'CPS', 'IFF', 'MOV', 'KZOSP', 'WWW', 'PSN', 'OLLI', 'ENTA', 'CROX', 'RRC', 'ACIA', 'AMAT', 'DPZ', 'RGNX', 'MRNA', 'BIG', 'TGKBP', 'DDOG', 'BBBY', 'TGKB', 'BECN', 'TPX', 'DECK', 'OSUR', 'FOXF', 'ATGE', 'DRNA', 'BBY', 'YETI', 'WSM', 'INGN', 'CRWD', 'UTHR', 'PRG', 'TXG', 'SIG', 'EQT', 'TCBI', 'CEVA', 'PBF', 'INDB', 'COHR', 'LEVI', 'DKNG',
+         'GM', 'CRI', 'CVS', 'XLNX', 'ETRN', 'FOCS', 'XOM', 'NEO', 'AMD', 'RUAL', 'WTFC', 'BOOT', 'GRA', 'DBX', 'AVY', 'RIG', 'WAL', 'ZEN', 'VPG', 'OKE', 'MELI', 'LPLA', 'GNRC', 'ASH', 'NARI', 'SHW', 'BLUE', 'SWBI', 'SKX', 'GOSS', 'AGIO', 'TGKD', 'TER', 'AEO', 'SF', 'NDSN', 'AFKS', 'IQV', 'TCRR', 'BBIO', 'RH', 'ESPR', 'COG', 'CNST', 'BLD', 'PB', 'MAS', 'RPD', 'NLSN', 'SONO', 'JEF']
 
     result = calculate_sharp_table(l, f=datetime.now()-timedelta(days=7), t=datetime.now())
 
