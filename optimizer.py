@@ -34,7 +34,7 @@ def main():
 
     #l = ["SBER", "TATN", "PHOR", "CHMF", "MGNT", "GCHE", "GAZP", "LKOH", "ROSN"]
 
-    l = ["ATVI", "KO", "PGR", "T", "GNL"]
+    l = ["MO", "T", "IRM", "KMI", "SPG", "WMB", "VLO"]
 
     budget=1000
 

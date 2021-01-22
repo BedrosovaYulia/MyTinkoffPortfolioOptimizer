@@ -13,7 +13,7 @@ client = openapi.api_client(token)
 
 def print_30d_operations():
     now = datetime.now(tz=timezone('Europe/Moscow'))
-    yesterday = now - timedelta(days=40)
+    yesterday = now - timedelta(days=60)
     ops = client.operations.operations_get(_from=yesterday.isoformat(), to=now.isoformat())
     return ops
 
