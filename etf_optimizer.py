@@ -29,12 +29,16 @@ api = ti.OpenApi(client)
 def main():
 
     markets = api.market.market_etfs_get()
-    l = ["AKSP", "VTBA", "FXDE", "RUSE", "AKEU", "AKMB","FXRB", "VTBH", "FXRU", "SBRB", "VTBB", "FXGD"]
-    #l = ["FXCN", "VTBE", "AKNX","FXIT","FXWO","FXUS","FXRW","SBSP","SBMX","FXRL","VTBX","FXKZ"]
+    l = ["FXCN", "FXKZ", "FXRL", "FXUS", "FXDE", "FXWO"]
+
+    #l = ["FXRU", "SBRB", "FXGD", "SBGB"]
+
+    #l=["VTBX","DIVD"]
+
     e = ["TIPO", "TBIO", "TMOS", "TECH", "TSPX",
          "TRUR", "TGLD", "TEUR", "TUSD"]
 
-    budget=50000
+    budget=300000
 
     
     df = dict()
@@ -78,8 +82,8 @@ def main():
     i=0
     print("name", "sum", "lot price", "lot quantity")
     for g in gmv:
-        if round((g.round(4)*budget)/(dc[str(cov.index[i])]), 0) > 0:
-            print(cov.index[i], g.round(4)*budget, dc[str(cov.index[i])], round((g.round(4)*budget)/(dc[str(cov.index[i])]),0))
+        #if round((g.round(4)*budget)/(dc[str(cov.index[i])]), 0) > 0:
+        print(cov.index[i], g.round(4)*budget, dc[str(cov.index[i])], round((g.round(4)*budget)/(dc[str(cov.index[i])]),0))
         i=i+1
 
 
