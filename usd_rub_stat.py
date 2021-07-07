@@ -91,27 +91,39 @@ for operation in operations.payload.operations:
                 "summ": startsum, "currency": operation.currency, "name": fgname}
         
             
-total_usd = 0
-total_spend=0
+total_usd_b = 0
+total_spend_b=0
+
+total_usd_s = 0
+total_spend_s = 0
 
 for  operation in operations.payload.operations:
     if operation.figi and operation.status == 'Done' and operation.figi == "BBG0013HGFT4":
         #print(operation)
                 
-        """if operation.operation_type == "Sell":
-            total_usd = total_usd-operation.quantity
-            total_spend = total_spend + operation.payment
-            byfigi[operation.figi]["summ"] = byfigi[operation.figi]["summ"] + operation.payment"""
+        if operation.operation_type == "Sell":
+            total_usd_s = total_usd_s-operation.quantity
+            total_spend_s = total_spend_s + operation.payment
+        
         if operation.operation_type == "Buy":
-            total_usd = total_usd+operation.quantity
-            total_spend = total_spend + operation.payment
-            #byfigi[operation.figi]["summ"] = byfigi[operation.figi]["summ"] + operation.payment
+            total_usd_b = total_usd_b+operation.quantity
+            total_spend_b = total_spend_b + operation.payment
 
-        print(operation.date, operation.operation_type, operation.payment,
-              operation.price, operation.quantity, total_usd, total_spend)
+        #print(operation.date, operation.operation_type, operation.payment,
+        #      operation.price, operation.quantity, total_usd_b, total_spend_b)
 
-average = total_spend/total_usd
-print(total_usd, total_spend, average)
+average_b = total_spend_b/total_usd_b
+print("Buy: ",total_usd_b, total_spend_b, average_b)
+
+average_s = total_spend_s/total_usd_s
+print("Sell: ", total_usd_s, total_spend_s, average_s)
+
+total_comission = (total_spend_s-total_spend_b)*0.0005
+print("Total comission: ",total_comission)
+
+profit = abs(total_usd_b*average_s)-abs(total_usd_b*average_b)-total_comission
+print("Total profit: ", profit)
+
         
 """pddf = pd.DataFrame(byfigi)
 pddf2=pddf.T
