@@ -7,8 +7,6 @@ import numpy as np
 
 
 token = os.getenv('TINVEST_TOKEN', '')
-#token = os.getenv('TINVEST_VOVA', '')
-#print(token)
 client = openapi.api_client(token)
 
 def print_30d_operations():
@@ -40,12 +38,10 @@ figi_name=dict()
 name_figi=dict()
 instruments = get_market_names().payload.instruments + \
     get_market_bonds().payload.instruments + get_market_etfs().payload.instruments
-#print(instruments)
 for instrument in instruments:
     figi_name[instrument.figi]=instrument.name
     name_figi[instrument.name] = instrument.figi
 
-#print(figi_name)
     
 figi_in_prt=list()
 figi_cost=dict()
@@ -109,9 +105,6 @@ for  operation in operations.payload.operations:
             total_usd_b = total_usd_b+operation.quantity
             total_spend_b = total_spend_b + operation.payment
 
-        #print(operation.date, operation.operation_type, operation.payment,
-        #      operation.price, operation.quantity, total_usd_b, total_spend_b)
-
 average_b = total_spend_b/total_usd_b
 print("Buy: ",total_usd_b, total_spend_b, average_b)
 
@@ -123,14 +116,3 @@ print("Total comission: ",total_comission)
 
 profit = abs(total_usd_b*average_s)-abs(total_usd_b*average_b)-total_comission
 print("Total profit: ", profit)
-
-        
-"""pddf = pd.DataFrame(byfigi)
-pddf2=pddf.T
-
-pddfusd = pd.DataFrame(byfigiusd)
-pddf2usd = pddfusd.T
-
-print(pddf2.head())
-print(pddf2["summ"].sum())
-pddf2.to_csv("income_"+str(datetime.now().date())+".csv")"""
