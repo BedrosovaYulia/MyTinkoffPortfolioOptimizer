@@ -1,40 +1,31 @@
 import os
 from datetime import datetime, timedelta
-from http import HTTPStatus
 from typing import Any, List, Tuple
 import pandas as pd
-import numpy as np
-import plotly.graph_objects as go
-import tinvest as ti
 import edhec_risk_kit as erk
+from openapi_client import openapi
+from pytz import timezone
 
 
 class HTTPError(Exception):
     pass
 
+token = os.getenv('TINVEST_TOKEN', '')
+client = openapi.api_client(token)
 
-class CustomClient(ti.SyncClient):
-    def request(self, *args, **kwargs) -> Any:
-        response = super().request(*args, **kwargs)
-        if response.status_code != HTTPStatus.OK:
-            raise HTTPError(response.parse_error().json())
-
-        return response.parse_json().payload
-
-
-client = CustomClient(os.getenv('TINVEST_SANDBOX_TOKEN', ''), use_sandbox=True)
-
-api = ti.OpenApi(client)
+def get_market_names():
+    names = client.market.market_stocks_get()
+    return names
 
 def main():
 
-    markets=api.market.market_stocks_get()
+    markets = get_market_names().payload.instruments
 
     #l = ["ATVI", "KO", "INTC", "LPL", "MAT"]
 
     #l = ["SBER", "TATN", "PHOR", "CHMF", "MGNT", "GCHE", "GAZP", "LKOH", "ROSN"]
 
-    l = ["MO", "T", "IRM", "KMI", "SPG", "WMB", "VLO"]
+    l = ["GRNT", "UWGN", "MSST", "ETLN", "RUGR", "MTLR", "APTK", "RNFT", "ORUP", "PRFN", "LNTA", "DASB"]
 
     budget=1000
 
@@ -42,35 +33,41 @@ def main():
     df = dict()
     dc = dict()
     k=0
-    for MI in markets.instruments:
+    for MI in markets:
+        
         if MI.ticker in l:
-            now = datetime.now()
-            try:
-                cndls = api.market.market_candles_get(MI.figi,
-                                                    from_=now -
-                                                    timedelta(days=60),
-                                                    to=now,
-                                                    interval=ti.CandleResolution.day)
-                df2 = dict()
-                cost = 0
-                for cndl in cndls.candles:
-                    cost = cndl.c
-                    #if MI.currency == MI.currency.usd:
-                    #    cost = cost*70
-                    dc[MI.ticker]=cost*MI.lot
-                    df2[str(cndl.time)] = ((cndl.c-cndl.o)/cndl.o)*100
+            #print(MI)
+            _from = datetime.now(tz=timezone('Europe/Moscow')) - timedelta(days=360*2)
+            print(_from)
+            print(type(_from))
+            #try:
+                
+            
+            cndls = client.market.market_candles_get(
+                MI.figi, _from=_from.isoformat(), to=datetime.now(tz=timezone('Europe/Moscow')).isoformat(), interval='week')
+            #print(cndls)
+                
+            df2 = dict()
+            cost = 0
+            
+            for cndl in cndls.payload.candles:
+                cost = cndl.c
+                #if MI.currency == MI.currency.usd:
+                #    cost = cost*70
+                dc[MI.ticker]=cost*MI.lot
+                df2[str(cndl.time)] = ((cndl.c-cndl.o)/cndl.o)*100
                     
-                #if cost*MI.lot < 1000:
-                df[MI.ticker] = df2
+            #if cost*MI.lot < 1000:
+            df[MI.ticker] = df2
     
-            except:
-                pass
+            #except:
+                #pass
             k=k+1
         
     pddf = pd.DataFrame(df)
     pddf.index = pd.to_datetime(pddf.index).to_period('d')
 
-    #print(pddf)
+    print(pddf)
     #Global Minimum Variance[GMV] Portfolio
     
     cov = pddf.cov()
